@@ -1,16 +1,10 @@
-const validacaoUsuario = require('../services/usuarioService.js');
-const usuarioRepository = require('../repositories/usuarioRepository.js');
+const services = require('../services/usuarioService.js');
 
 const cadastrarUsuario = async function (req, res) {
-	const nome = req.body.nome;
-	const email = req.body.email;
-
-	if (!validacaoUsuario(nome, email)) {
-		return res.status(400).send('Dados do usuário inválidos');
-	}
+	const { nome, email } = req.body;
 
 	try {
-		const novoUsuario = await usuarioRepository.cadastrarUsuario(nome, email);
+		const novoUsuario = await services.cadastrarUsuario(nome, email);
 		res.status(201).send(novoUsuario);
 	} catch (error) {
 		console.error('Erro ao cadastrar usuário:', error);

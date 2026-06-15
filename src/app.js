@@ -11,6 +11,7 @@ app.use(cors());
 app.use(express.json());
 app.use('', router);
 
+pool.connect();
 pool.on('connect', () => {
 	console.log('Conexão com o banco de dados estabelecida com sucesso!');
 });
