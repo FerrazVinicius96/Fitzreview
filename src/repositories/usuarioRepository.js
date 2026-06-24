@@ -1,4 +1,4 @@
-const pool = require('../config/db/db.js');
+const pool = require('../db/db.js');
 
 const cadastrarUsuario = async (nome, email) => {
 	try {

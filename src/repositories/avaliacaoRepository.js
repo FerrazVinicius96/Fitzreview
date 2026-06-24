@@ -1,4 +1,4 @@
-const pool = require('../config/db/db.js');
+const pool = require('../db/db.js');
 const pg = require('pg');
 
 const cadastrarAvaliacao = async (avaliacao) => {
