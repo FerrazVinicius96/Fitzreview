@@ -2,14 +2,14 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const router = require('./routes/index.js');
+const usuarioRouter = require('./routes/UsuarioRoutes.js');
 const pool = require('./db/db.js');
 
 const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use('', router);
+app.use('', usuarioRouter);
 
 pool.query('SELECT NOW()', (err, res) => {
 	if (err) {

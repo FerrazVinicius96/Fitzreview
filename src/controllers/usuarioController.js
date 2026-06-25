@@ -1,15 +1,58 @@
-const services = require('../services/usuarioService.js');
+const service = require('../services/usuarioService');
 
-const cadastrarUsuario = async function (req, res) {
-	const { nome, email } = req.body;
-
-	try {
-		const novoUsuario = await services.cadastrarUsuario(nome, email);
-		res.status(201).send(novoUsuario);
-	} catch (error) {
-		console.error('Erro ao cadastrar usuário:', error);
-		res.status(500).send('Erro ao cadastrar usuário');
+class UsuarioController {
+	constructor() {
+		this.service = new service();
 	}
-};
 
-module.exports = cadastrarUsuario;
+	async criarUsuario(req, res) {
+		const { nome, email, senha_hash } = req.body;
+		try {
+			const usuarioCriado = await this.service.criarUsuario(
+				nome,
+				email,
+				senha_hash,
+			);
+			res.status(201).json(usuarioCriado);
+		} catch (error) {
+			res.status(400).json({ error: error.message });
+		}
+	}
+
+	async buscarUsuario(req, res) {
+		const { nome } = req.body;
+
+		try {
+			const usuario = await this.service.buscarUsuario(nome);
+			res.status(200).json(usuario);
+		} catch (error) {
+			res.status(400).json({ error: error.message });
+		}
+	}
+
+	async atualizar(req, res) {
+		try {
+			// Pegamos QUEM da URL e O QUE do corpo JSON
+			const { id } = req.params;
+			const dados = req.body;
+
+			// Delegamos a inteligência para o Service
+			const usuarioAtualizado = await usuarioService.atualizarUsuario(
+				id,
+				dados,
+			);
+
+			// Devolvemos HTTP 200 OK
+			return res.status(200).json({
+				mensagem: 'Usuário atualizado com sucesso!',
+				usuario: usuarioAtualizado,
+			});
+		} catch (error) {
+			// Se o Service jogar um "throw new Error", cai aqui no Catch.
+			// Erro 400 significa "Bad Request" (O React mandou algo errado)
+			return res.status(400).json({ erro: error.message });
+		}
+	}
+}
+
+module.exports = new UsuarioController();
