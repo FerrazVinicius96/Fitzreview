@@ -5,7 +5,7 @@ router.post('/usuarios', (req, res) =>
 	usuarioController.criarUsuario(req, res),
 );
 
-router.get('/usuarios', (req, res) =>
+router.get('/usuarios/:nome', (req, res) =>
 	usuarioController.buscarUsuario(req, res),
 );
 

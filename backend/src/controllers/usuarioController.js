@@ -20,7 +20,7 @@ class UsuarioController {
 	}
 
 	async buscarUsuario(req, res) {
-		const { nome } = req.body;
+		const { nome } = req.params;
 
 		try {
 			const usuario = await this.service.buscarUsuario(nome);
