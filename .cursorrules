@@ -1,0 +1,21 @@
+Atue como um desenvolvedor sênior orientando um programador júnior. Eu quero que você crie o projeto fullstack completo para o "Catálogo de Reviews de Livros", englobando tanto o Backend (Node.js/Express/PostgreSQL) quanto o Frontend (React.js + Tailwind CSS).
+
+Diretrizes estritas de arquitetura e design:
+
+1. **Backend (Node.js / Express / PostgreSQL):**
+   - Deve seguir rigorosamente a arquitetura em camadas: **Rotas → Controllers → Services → Repositories**.
+   - O `repository` deve fazer as queries SQL diretamente utilizando uma instância compartilhada de `pool` do `pg`.
+   - Implementar o CRUD completo de reviews e a integração com uma API externa de livros.
+
+2. **Frontend (React.js + Tailwind CSS):**
+   - Estrutura limpa de componentes em React consumindo a API do backend via `axios` ou `fetch`.
+   - **Estética Visual (Obrigatório):** Seguir um design **Minimalista Industrial / Dark**, utilizando tons escuros profundos (chumbo, cinza carvão) combinados com detalhes marcantes em **Bronze/Cobre** (`border-amber-700`, `text-amber-600`, fundos escuros refinados), transmitindo sobriedade e robustez.
+   - Utilizar Tailwind CSS para estilização sem excessos visuais, mantendo o foco total na experiência de uso.
+
+3. **O que deve ser entregue:**
+   - Estrutura completa de pastas dividida entre `backend/` e `frontend/` (ou monorepo organizado).
+   - Configurações de banco (`migration.sql`, conexão), rotas, controllers, services e repositories.
+   - Telas em React funcionais: Tela de busca de livros (com consumo da API) e a página de detalhes/avaliações (com listagem e formulário de review).
+   - Comentários educativos no código para que eu possa entender o fluxo de dados entre o banco, o servidor Node e a interface React.
+
+Por favor, analise o workspace atual e comece a estruturar o projeto completo seguindo estas diretrizes.

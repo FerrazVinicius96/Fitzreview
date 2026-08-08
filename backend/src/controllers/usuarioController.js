@@ -1,8 +1,9 @@
-const service = require('../services/usuarioService');
+const UsuarioService = require('../services/usuarioService');
 
+// Camada Controller: traduz HTTP ↔ Service (extrai body/params e devolve status).
 class UsuarioController {
 	constructor() {
-		this.service = new service();
+		this.service = new UsuarioService();
 	}
 
 	async criarUsuario(req, res) {
@@ -26,31 +27,26 @@ class UsuarioController {
 			const usuario = await this.service.buscarUsuario(nome);
 			res.status(200).json(usuario);
 		} catch (error) {
-			res.status(400).json({ error: error.message });
+			res.status(404).json({ error: error.message });
 		}
 	}
 
 	async atualizar(req, res) {
 		try {
-			// Pegamos QUEM da URL e O QUE do corpo JSON
 			const { id } = req.params;
 			const dados = req.body;
 
-			// Delegamos a inteligência para o Service
-			const usuarioAtualizado = await usuarioService.atualizarUsuario(
+			const usuarioAtualizado = await this.service.atualizarUsuario(
 				id,
 				dados,
 			);
 
-			// Devolvemos HTTP 200 OK
 			return res.status(200).json({
 				mensagem: 'Usuário atualizado com sucesso!',
 				usuario: usuarioAtualizado,
 			});
 		} catch (error) {
-			// Se o Service jogar um "throw new Error", cai aqui no Catch.
-			// Erro 400 significa "Bad Request" (O React mandou algo errado)
-			return res.status(400).json({ erro: error.message });
+			return res.status(400).json({ error: error.message });
 		}
 	}
 }

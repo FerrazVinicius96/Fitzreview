@@ -1,5 +1,6 @@
 const pool = require('../db/db.js');
 
+// Camada Repository: única que executa SQL. Recebe dados já validados do Service.
 class UsuarioRepository {
 	async criarUsuario(nome, email, senha_hash) {
 		const query = `
@@ -7,38 +8,43 @@ class UsuarioRepository {
             VALUES ($1, $2, $3)
             RETURNING id, nome, email, criado_em;
         `;
-		const values = [nome, email, senha_hash]; // O pg trata os valores aqui de forma segura (evita SQL Injection)
-
-		const resultado = await pool.query(query, values);
+		const resultado = await pool.query(query, [nome, email, senha_hash]);
 		return resultado.rows[0];
 	}
 
 	async buscarPorEmail(email) {
-		const query = 'SELECT * FROM usuarios WHERE email = $1';
-		const resultado = await pool.query(query, [email]);
+		const resultado = await pool.query(
+			'SELECT id, nome, email, criado_em FROM usuarios WHERE email = $1',
+			[email],
+		);
 		return resultado.rows[0];
 	}
 
 	async buscarPorNome(nome) {
-		const query = `
-			SELECT * FROM usuarios WHERE nome = $1
-		`;
-		const resultado = await pool.query(query, [nome]);
+		const resultado = await pool.query(
+			'SELECT id, nome, email, criado_em FROM usuarios WHERE nome = $1',
+			[nome],
+		);
 		return resultado.rows[0];
 	}
 
-	// O método de atualizar (PATCH) dinâmico
-	async atualizar(id, camposTratados) {
-		// Exemplo: camposTratados = { nome: "João", email: "joao@gmail.com" }
-		const chaves = Object.keys(camposTratados); // ['nome', 'email']
-		const valores = Object.values(camposTratados); // ['João', 'joao@gmail.com']
+	async buscarPorId(id) {
+		const resultado = await pool.query(
+			'SELECT id, nome, email, criado_em FROM usuarios WHERE id = $1',
+			[id],
+		);
+		return resultado.rows[0];
+	}
 
-		// Montamos o "SET nome = $1, email = $2" dinamicamente
+	async atualizar(id, camposTratados) {
+		const chaves = Object.keys(camposTratados);
+		const valores = Object.values(camposTratados);
+
+		// Monta SET dinâmico com placeholders ($1, $2...) para evitar SQL injection
 		const setString = chaves
 			.map((chave, index) => `${chave} = $${index + 1}`)
 			.join(', ');
 
-		// Adicionamos o ID no final do array de valores para a cláusula WHERE
 		valores.push(id);
 
 		const query = `
@@ -49,7 +55,7 @@ class UsuarioRepository {
         `;
 
 		const resultado = await pool.query(query, valores);
-		return resultado.rows[0]; // Retorna os novos dados ou undefined se não achar o ID
+		return resultado.rows[0];
 	}
 }
 

@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+/* Design system: Minimalista Industrial / Dark + Bronze */
+@theme {
+  --color-ink: #0e0f12;
+  --color-charcoal: #16181d;
+  --color-slate-panel: #1c1f26;
+  --color-steel: #2a2f38;
+  --color-bronze: #b45309;
+  --color-bronze-bright: #d97706;
+  --color-bronze-soft: #92400e;
+  --color-ash: #a8a29e;
+  --color-fog: #e7e5e4;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    @apply bg-ink text-fog antialiased;
+    font-family: var(--font-sans);
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse 80% 50% at 10% -10%, rgba(180, 83, 9, 0.12), transparent),
+      radial-gradient(ellipse 60% 40% at 90% 0%, rgba(42, 47, 56, 0.9), transparent),
+      #0e0f12;
+  }
+
+  ::selection {
+    background: rgba(180, 83, 9, 0.35);
+  }
+}
