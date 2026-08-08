@@ -13,12 +13,24 @@ frontend/    → React (busca de livros + detalhes/avaliações)
 
 - Node.js 18+
 - PostgreSQL
+- **API do Google Books** — obrigatória para o FitzReview funcionar. A busca e os detalhes dos livros dependem dessa API externa; sem ela, as telas de catálogo não operam.
+
+### Como obter a chave (Google Books API)
+
+1. Acesse o [Google Cloud Console](https://console.cloud.google.com/).
+2. Crie (ou selecione) um projeto.
+3. Ative a **Books API** (Google Books API).
+4. Em *Credenciais*, gere uma **API key**.
+5. Coloque a chave no `.env` do backend como `GOOGLE_BOOKS_API_KEY`.
 
 ## Backend
 
 ```bash
 cd backend
-cp .env.example .env   # preencha DATABASE_URL (ou DB_*)
+cp .env.example .env
+# Preencha no .env:
+#   DATABASE_URL=...
+#   GOOGLE_BOOKS_API_KEY=sua_chave_aqui
 # Criar o banco, depois:
 psql -U postgres -d fitzreview -f src/db/migration.sql
 # ou: npm run migrate:up
