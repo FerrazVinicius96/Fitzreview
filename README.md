@@ -1,12 +1,12 @@
 # FitzReview — Catálogo de Reviews de Livros
 
-Projeto fullstack: **Backend** (Node.js / Express / PostgreSQL) + **Frontend** (React + Tailwind), com estética Minimalista Industrial / Dark + Bronze.
+Projeto fullstack: **Backend** (Node.js / Express / PostgreSQL) + **Frontend** (React + TypeScript + Tailwind), com estética Japandi dark / industrial e detalhes em bronze.
 
 ## Estrutura
 
 ```
 backend/     → Rotas → Controllers → Services → Repositories → PostgreSQL
-frontend/    → React (busca de livros + detalhes/avaliações)
+frontend/    → Landing (GSAP + Framer Motion) + busca + detalhes/avaliações
 ```
 
 ## Pré-requisitos
@@ -55,6 +55,32 @@ cp .env.example .env   # opcional; proxy Vite usa /api
 npm install
 npm run dev            # http://localhost:5173
 ```
+
+Rotas da interface:
+
+| Caminho | Tela |
+|---|---|
+| `/` | Landing (Fase 02) — Hero + sticky scroll + tipografia progressiva |
+| `/catalogo` | Busca de livros (Google Books) |
+| `/livro/:id` | Detalhes e avaliações |
+
+### Landing (Fase 02)
+
+Animações pesadas ficam isoladas do JSX:
+
+```
+frontend/src/animations/          → GSAP (ScrollTrigger, cleanup)
+frontend/src/components/landing/  → markup + Tailwind
+frontend/src/pages/LandingPage.tsx
+```
+
+- **Hero:** `useHeroReveal` anima `y`, `scale` e `opacity` com scrub.
+- **Meio:** coluna esquerda `sticky top-0`; cartões entram com Framer Motion `whileInView`.
+- **Rodapé:** `useFooterTypeFill` revela o CTA da esquerda para a direita (`clip-path` + scrub).
+
+Classes úteis do tema: `bg-obsidian`, `text-paper`, `text-mist`, `text-display`, `glow-bronze`, `landing-kicker`, `texture-grain`.
+
+GSAP no React: sempre `gsap.context` + `ctx.revert()` no cleanup do `useLayoutEffect` (ver `src/animations/useGsapContext.ts`). Sem o `revert()`, o StrictMode duplica ScrollTriggers e vaza listeners de scroll.
 
 ## Fluxo de dados
 

@@ -1,7 +1,12 @@
 @import "tailwindcss";
 
-/* Design system: Minimalista Industrial / Dark + Bronze */
+/*
+ * Design system único (Fase 01 + Fase 02)
+ * Japandi dark + industrial: obsidiana, off-white, glow pontual em bronze.
+ */
 @theme {
+  --color-void: #070708;
+  --color-obsidian: #0a0b0d;
   --color-ink: #0e0f12;
   --color-charcoal: #16181d;
   --color-slate-panel: #1c1f26;
@@ -10,26 +15,83 @@
   --color-bronze-bright: #d97706;
   --color-bronze-soft: #92400e;
   --color-ash: #a8a29e;
+  --color-mist: #c8c2b8;
   --color-fog: #e7e5e4;
+  --color-paper: #f4efe6;
   --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+}
+
+@utility glow-bronze {
+  box-shadow: 0 0 80px -16px rgba(180, 83, 9, 0.45);
+}
+
+@utility glow-bronze-sm {
+  box-shadow: 0 0 40px -12px rgba(180, 83, 9, 0.35);
+}
+
+@utility text-display {
+  font-family: var(--font-display);
 }
 
 @layer base {
   html {
-    @apply bg-ink text-fog antialiased;
+    @apply bg-obsidian text-paper antialiased;
+    overflow-x: hidden;
+    color-scheme: dark;
     font-family: var(--font-sans);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   body {
     min-height: 100vh;
-    background:
-      radial-gradient(ellipse 80% 50% at 10% -10%, rgba(180, 83, 9, 0.12), transparent),
-      radial-gradient(ellipse 60% 40% at 90% 0%, rgba(42, 47, 56, 0.9), transparent),
-      #0e0f12;
+    overflow-x: hidden;
+    background: #0a0b0d;
   }
 
   ::selection {
     background: rgba(180, 83, 9, 0.35);
+    color: #f4efe6;
+  }
+}
+
+@layer components {
+  .texture-grain {
+    background-image: radial-gradient(
+      rgba(244, 239, 230, 0.035) 0.5px,
+      transparent 0.5px
+    );
+    background-size: 3px 3px;
+  }
+
+  .kicker,
+  .landing-kicker {
+    @apply font-mono text-[11px] uppercase tracking-[0.32em] text-bronze;
+  }
+
+  .ui-field {
+    @apply w-full border border-steel/80 bg-void px-4 py-3 text-paper outline-none transition placeholder:text-ash/50 focus:border-bronze;
+  }
+
+  .ui-btn {
+    @apply border border-bronze bg-bronze/20 px-6 py-3 font-mono text-xs uppercase tracking-[0.22em] text-bronze-bright transition hover:border-bronze-bright hover:bg-bronze/30 disabled:opacity-50;
+  }
+
+  .ui-btn-solid {
+    @apply border border-bronze bg-bronze px-6 py-3 font-mono text-xs uppercase tracking-[0.22em] text-void transition hover:bg-bronze-bright disabled:opacity-50;
+  }
+
+  .ui-panel {
+    @apply border border-steel/70 bg-charcoal/40;
+  }
+
+  .ui-error {
+    @apply border border-red-900/60 bg-red-950/40 px-4 py-3 text-sm text-red-200;
   }
 }

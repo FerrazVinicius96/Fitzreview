@@ -6,8 +6,10 @@ import {
   listarAvaliacoesPorLivro,
   obterLivro,
 } from '../api/client';
+import { AtmosphereImage } from '../components/AtmosphereImage';
 import ReviewForm from '../components/ReviewForm';
 import ReviewList from '../components/ReviewList';
+import { imageSlots } from '../data/imageSlots';
 import { useUsuarioLocal } from '../hooks/useUsuarioLocal';
 
 export default function BookDetailsPage() {
@@ -20,7 +22,6 @@ export default function BookDetailsPage() {
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState('');
 
-  // Carrega detalhes (Google Books + cache no Postgres) e reviews do livro
   useEffect(() => {
     let ativo = true;
 
@@ -78,34 +79,40 @@ export default function BookDetailsPage() {
 
   if (loading) {
     return (
-      <p className="font-mono text-sm text-ash">Carregando ficha do livro…</p>
+      <p className="kicker">Carregando ficha do volume…</p>
     );
   }
 
   if (erro) {
     return (
-      <div className="space-y-4">
-        <p className="border border-red-900/60 bg-red-950/40 px-4 py-3 text-sm text-red-200">
-          {erro}
-        </p>
-        <Link to="/" className="font-mono text-sm text-bronze-bright">
-          ← Voltar à busca
+      <div className="space-y-6">
+        <p className="ui-error">{erro}</p>
+        <Link
+          to="/catalogo"
+          className="font-mono text-[11px] uppercase tracking-[0.22em] text-bronze-bright"
+        >
+          ← Voltar ao catálogo
         </Link>
       </div>
     );
   }
 
   return (
-    <section className="space-y-10">
+    <section className="relative space-y-16">
+      <AtmosphereImage
+        src={imageSlots.readingLamp}
+        className="pointer-events-none absolute -right-8 top-0 h-72 w-72 rounded-full object-cover opacity-20 mix-blend-screen blur-sm"
+      />
+
       <Link
-        to="/"
-        className="inline-block font-mono text-xs uppercase tracking-wider text-ash transition hover:text-bronze-bright"
+        to="/catalogo"
+        className="inline-block font-mono text-[11px] uppercase tracking-[0.22em] text-ash transition hover:text-bronze-bright"
       >
-        ← Voltar à busca
+        ← Voltar ao catálogo
       </Link>
 
-      <div className="grid gap-8 lg:grid-cols-[200px_1fr]">
-        <div className="h-72 w-full max-w-[200px] overflow-hidden border border-steel bg-steel">
+      <div className="grid gap-10 lg:grid-cols-[240px_1fr] lg:items-start">
+        <div className="glow-bronze aspect-[3/4] w-full max-w-[240px] overflow-hidden border border-bronze-soft/50 bg-steel">
           {livro.url_capa ? (
             <img
               src={livro.url_capa.replace('http:', 'https:')}
@@ -113,31 +120,31 @@ export default function BookDetailsPage() {
               className="h-full w-full object-cover"
             />
           ) : (
-            <div className="flex h-full items-center justify-center font-mono text-xs text-ash">
-              SEM CAPA
+            <div className="flex h-full items-center justify-center font-mono text-xs uppercase tracking-wider text-ash">
+              Sem capa
             </div>
           )}
         </div>
 
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-bronze">
-            Ficha técnica
-          </p>
-          <h1 className="mt-2 text-3xl font-semibold text-fog sm:text-4xl">
+          <p className="kicker">Ficha técnica</p>
+          <h1 className="text-display mt-4 text-4xl leading-[1.05] text-paper sm:text-5xl">
             {livro.titulo}
           </h1>
-          <p className="mt-2 font-mono text-sm text-ash">{livro.autores}</p>
-          <p className="mt-6 max-w-3xl text-sm leading-relaxed text-ash">
+          <p className="mt-3 font-mono text-xs tracking-wide text-ash">
+            {livro.autores}
+          </p>
+          <p className="mt-8 max-w-2xl text-[15px] leading-relaxed text-mist">
             {livro.descricao}
           </p>
         </div>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-2">
-        <div className="space-y-4">
-          <h2 className="text-xl font-medium text-fog">
+      <div className="grid gap-10 lg:grid-cols-2">
+        <div className="space-y-6">
+          <h2 className="text-display text-3xl text-paper">
             Avaliações
-            <span className="ml-2 font-mono text-sm text-bronze-bright">
+            <span className="ml-3 font-mono text-sm text-bronze-bright">
               ({avaliacoes.length})
             </span>
           </h2>
