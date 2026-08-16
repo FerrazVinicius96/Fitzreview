@@ -9,7 +9,12 @@ export const imageSlots = {
   heroAtmosphere: '/images/hero-atmosphere.jpg',
   /** Unsplash: "open book dark table", "still life books bronze lamp" */
   catalogStill: '/images/catalog-still.jpg',
-  /** Unsplash: "reading lamp warm dark", "desk lamp books night" */
+  /**
+   * Fundo do Hero e da transição pós-Hero: lâmpada incandescente acesa sobre
+   * um livro aberto, em preto e branco. Preenchida (`reading-lamp.jpg`) —
+   * é a imagem real que substitui a estante ilustrada como pano de fundo
+   * protagonista do Hero.
+   */
   readingLamp: '/images/reading-lamp.jpg',
   /** Unsplash: "handmade paper texture dark", "linen fabric close up dark" */
   paperFiber: '/images/texture-paper.jpg',

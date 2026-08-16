@@ -88,10 +88,10 @@ export default function BookDetailsPage() {
       <div className="space-y-6">
         <p className="ui-error">{erro}</p>
         <Link
-          to="/catalogo"
+          to="/#busca"
           className="font-mono text-[11px] uppercase tracking-[0.22em] text-bronze-bright"
         >
-          ← Voltar ao catálogo
+          ← Voltar à busca
         </Link>
       </div>
     );
@@ -105,10 +105,10 @@ export default function BookDetailsPage() {
       />
 
       <Link
-        to="/catalogo"
+        to="/#busca"
         className="inline-block font-mono text-[11px] uppercase tracking-[0.22em] text-ash transition hover:text-bronze-bright"
       >
-        ← Voltar ao catálogo
+        ← Voltar à busca
       </Link>
 
       <div className="grid gap-10 lg:grid-cols-[240px_1fr] lg:items-start">

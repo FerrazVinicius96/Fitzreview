@@ -1,6 +1,7 @@
 export { FooterProgressive } from './FooterProgressive';
 export { HeroSection } from './HeroSection';
-export { HeroShelfPanel } from './HeroShelfPanel';
+export { IncandescentBulb } from './IncandescentBulb';
+export { LampDot } from './LampDot';
 export { LandingNav } from './LandingNav';
-export { ReviewCoverCard } from './ReviewCoverCard';
-export { StickyScrollSection } from './StickyScrollSection';
+export { SearchResultsSection } from './SearchResultsSection';
+export { SearchSection } from './SearchSection';

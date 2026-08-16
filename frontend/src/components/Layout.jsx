@@ -25,16 +25,9 @@ export default function Layout() {
             >
               Início
             </NavLink>
-            <NavLink
-              to="/catalogo"
-              className={({ isActive }) =>
-                isActive
-                  ? 'text-bronze-bright'
-                  : 'text-ash transition hover:text-paper'
-              }
-            >
-              Catálogo
-            </NavLink>
+            <Link to="/#busca" className="text-ash transition hover:text-paper">
+              Buscar
+            </Link>
           </nav>
         </div>
       </header>
@@ -50,8 +43,8 @@ export default function Layout() {
             <Link to="/" className="transition hover:text-bronze-bright">
               Início
             </Link>
-            <Link to="/catalogo" className="transition hover:text-bronze-bright">
-              Catálogo
+            <Link to="/#busca" className="transition hover:text-bronze-bright">
+              Buscar
             </Link>
           </nav>
         </div>

@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useFooterTypeFill } from '../../animations/useFooterTypeFill';
+import { IncandescentBulb } from './IncandescentBulb';
 
-const CTA = 'Explore o catálogo completo.';
+const CTA = 'Volte sempre que terminar a próxima página.';
 
 /**
  * Seção 3 — Rodapé com tipografia progressiva.
@@ -20,7 +21,14 @@ export function FooterProgressive() {
     >
       <div className="texture-grain pointer-events-none absolute inset-0 opacity-50" />
 
-      <Link to="/catalogo" className="relative block max-w-[92vw]">
+      <IncandescentBulb
+        hook="footer-lamp"
+        defaultLit={0}
+        particles={false}
+        className="absolute right-6 top-0 h-20 w-12 sm:right-12 sm:h-24 sm:w-16"
+      />
+
+      <a href="#busca" className="relative block max-w-[92vw]">
         <p className="text-display text-[clamp(2.4rem,8vw,7.5rem)] leading-[0.95] text-steel">
           {CTA}
         </p>
@@ -32,12 +40,12 @@ export function FooterProgressive() {
         >
           {CTA}
         </p>
-      </Link>
+      </a>
 
-      <nav className="relative mt-20 flex flex-wrap gap-8 border-t border-steel/40 pt-8 font-mono text-xs uppercase tracking-[0.22em] text-ash">
-        <Link to="/catalogo" className="transition hover:text-bronze-bright">
-          Catálogo
-        </Link>
+      <nav className="relative mt-24 flex flex-wrap gap-8 border-t border-steel/40 pt-8 font-mono text-xs uppercase tracking-[0.22em] text-ash">
+        <a href="#busca" className="transition hover:text-bronze-bright">
+          Buscar
+        </a>
         <Link to="/" className="transition hover:text-bronze-bright">
           Início
         </Link>

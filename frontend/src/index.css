@@ -41,6 +41,7 @@
     overflow-x: hidden;
     color-scheme: dark;
     font-family: var(--font-sans);
+    scroll-behavior: smooth;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -58,6 +59,36 @@
   ::selection {
     background: rgba(180, 83, 9, 0.35);
     color: #f4efe6;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bulb-halo-breathe {
+    animation: bulbBreathe 7s ease-in-out infinite;
+  }
+
+  .bulb-particle {
+    animation: bulbDrift 6s ease-in-out infinite;
+  }
+}
+
+@keyframes bulbBreathe {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.07);
+  }
+}
+
+@keyframes bulbDrift {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-7px) translateX(2px);
   }
 }
 

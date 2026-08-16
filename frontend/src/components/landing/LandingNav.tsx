@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { SiteBrand } from '../SiteBrand';
 
 export function LandingNav() {
@@ -9,12 +8,12 @@ export function LandingNav() {
           <SiteBrand />
         </div>
 
-        <Link
-          to="/catalogo"
+        <a
+          href="#busca"
           className="pointer-events-auto border border-steel/80 bg-obsidian/40 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em] text-mist backdrop-blur-sm transition hover:border-bronze hover:text-bronze-bright glow-bronze-sm"
         >
-          Catálogo
-        </Link>
+          Buscar
+        </a>
       </div>
     </header>
   );

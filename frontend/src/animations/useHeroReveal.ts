@@ -7,11 +7,22 @@ import { useGsapContext } from './useGsapContext';
  *
  * Marcadores no markup (sem acoplar a classes Tailwind):
  *   [data-hero-copy]  → bloco de tipografia
- *   [data-hero-panel] → painel/estante que sobe do fundo
+ *   [data-hero-dim]   → camada escura sobre a foto de fundo (as luzes sobem)
+ *   [data-hero-flood] → halo de luz quente ancorado na lâmpada da foto
  *
  * Propriedades animadas (somente compositing): y, scale, opacity.
- * O palco é sticky no CSS; o ScrollTrigger só faz scrub — evita pin()
- * (que compete com o layout do React e com mobile browsers).
+ * O palco de texto é sticky no CSS; o ScrollTrigger só faz scrub — evita
+ * pin() (que compete com o layout do React e com mobile browsers). A foto
+ * de fundo não é sticky — ela é alta (150vh) e rola normalmente, então o
+ * "vão preto" que existia depois do Hero virou a parte de baixo da própria
+ * foto, sem precisar de mais nenhuma lógica de scroll.
+ *
+ * `data-hero-dim` começa quase opaco e clareia cedo (~55% do scrub) — efeito
+ * de "as luzes sobem" assim que a página carrega o Hero. `data-hero-flood`
+ * cresce do início ao fim (100% do scrub), inclusive durante o trecho em
+ * que o palco de texto se solta do topo: em vez de um trecho de scroll
+ * "morto", a luz segue se espalhando até se fundir ao degradê que introduz
+ * a seção de busca.
  */
 export function useHeroReveal(root: RefObject<HTMLElement | null>): void {
   useGsapContext(
@@ -21,21 +32,22 @@ export function useHeroReveal(root: RefObject<HTMLElement | null>): void {
       if (!rootEl) return;
 
       const copy = rootEl.querySelector<HTMLElement>('[data-hero-copy]');
-      const panel = rootEl.querySelector<HTMLElement>('[data-hero-panel]');
-      if (!copy || !panel) return;
+      const dim = rootEl.querySelector<HTMLElement>('[data-hero-dim]');
+      const flood = rootEl.querySelector<HTMLElement>('[data-hero-flood]');
+      if (!copy) return;
 
       if (prefersReducedMotion()) {
-        gsap.set(panel, { yPercent: 0, scale: 1, opacity: 0.4 });
         gsap.set(copy, { y: 0, opacity: 1 });
+        if (dim) gsap.set(dim, { opacity: 0.32 });
+        if (flood) gsap.set(flood, { opacity: 0.3, scale: 1.4 });
         return;
       }
 
-      gsap.set(panel, {
-        yPercent: 78,
-        scale: 0.72,
-        opacity: 0,
-        transformOrigin: '50% 100%',
-      });
+      gsap.set(copy, { y: 0, opacity: 1 });
+      if (dim) gsap.set(dim, { opacity: 0.52 });
+      if (flood) {
+        gsap.set(flood, { opacity: 0, scale: 0.6, transformOrigin: '50% 50%' });
+      }
 
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
@@ -47,9 +59,9 @@ export function useHeroReveal(root: RefObject<HTMLElement | null>): void {
         },
       });
 
-      tl.to(copy, { y: -128, opacity: 0.08, duration: 1 }, 0);
-      tl.to(panel, { yPercent: 0, scale: 1, duration: 0.38 }, 0);
-      tl.to(panel, { opacity: 0.38, duration: 0.72 }, 0.08);
+      tl.to(copy, { y: -32, opacity: 0.2, duration: 0.6 }, 0.32);
+      if (dim) tl.to(dim, { opacity: 0.16, duration: 0.55 }, 0);
+      if (flood) tl.to(flood, { opacity: 0.4, scale: 2.4, duration: 1 }, 0.05);
     },
     [root],
   );
